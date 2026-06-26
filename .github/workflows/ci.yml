@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security-lint:
+    name: Security & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Gitleaks (secret scanning)
+        uses: gitleaks/gitleaks-action@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          pip install ruff bandit
+
+      - name: Ruff (Python linter)
+        run: ruff check backend/ agents/ tests/
+
+      - name: Bandit (Python SAST)
+        run: bandit -c backend/pyproject.toml -r backend/ agents/
+
+      - name: pip-audit (dependency vulns)
+        run: |
+          pip install pip-audit
+          pip-audit -r backend/requirements.txt
+
+      - name: npm audit (frontend)
+        run: |
+          cd frontend && npm audit --audit-level=high || true
+        continue-on-error: true
+
+  test:
+    name: Tests
+    needs: security-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run tests
+        run: pytest tests/ -v --cov=backend --cov=agents --cov-report=term-missing
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: false
+
+  dependabot:
+    name: Dependabot config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check dependabot config
+        run: test -f .github/dependabot.yml
