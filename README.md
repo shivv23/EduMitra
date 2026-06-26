@@ -1,6 +1,6 @@
 # EduMitra AI
 
-**Team:** shivamkumar0423 · **Live:** https://edumitraai.vercel.app
+**Team:** CodyRhodes · **Live:** https://edumitraai.vercel.app
 
 An AI tutor and wellness companion for Indian students grades 6–12. NCERT-aligned, works in 11 Indian languages, compliant with DPDP Act 2023.
 
