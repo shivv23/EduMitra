@@ -11,7 +11,7 @@ jobs:
     name: Security & Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Gitleaks (secret scanning)
         uses: gitleaks/gitleaks-action@v2
@@ -47,7 +47,7 @@ jobs:
     needs: security-lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -71,6 +71,6 @@ jobs:
     name: Dependabot config
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check dependabot config
         run: test -f .github/dependabot.yml
