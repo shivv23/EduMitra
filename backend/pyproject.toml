@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "S", "B", "SIM"]
+ignore = ["S101"]  # allow assert in tests
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101"]  # allow assert in tests

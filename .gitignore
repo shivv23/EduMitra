@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+.venv/
+env/
+venv/
+
+# Node
+node_modules/
+.next/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ChromaDB (persistent vector store)
+agents/rag/chroma_db/
+
+# HuggingFace cache
+.sentence-transformers/
+
+# Logs
+*.log
+*.~*
